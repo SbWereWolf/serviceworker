@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Firebase Cloud Messaging</title>
+    <title>message wall</title>
     <link href="favicon.png" rel="shortcut icon">
 
     <!-- Import Google Icon Font -->
@@ -17,13 +17,11 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
 
-    <script src="/messaging-settings.js"></script>
+    <script src="messaging-settings.js"></script>
     <style type="text/css">
         #alert,
         #info,
-        #delete,
-        #notification,
-        #massage_row {
+        #delete {
             display: none;
         }
     </style>
@@ -31,7 +29,7 @@
 <body>
 <nav class="light-blue lighten-1" role="navigation">
     <div class="nav-wrapper container">
-        <h3 class="brand-logo">Firebase Cloud Messaging</h3>
+        <h3 class="brand-logo" style="text-transform: capitalize;">message wall</h3>
         <ul class="right hide-on-med-and-down desktop-header-links">
             <li><a href="https://github.com/peter-gribanov/serviceworker">GitHub</a></li>
         </ul>
@@ -64,44 +62,10 @@
                     class="material-icons left">delete</i> Delete Token
             </button>
         </div>
-        <div class="row">
-            <form action="" class="col s12" id="notification" method="post">
-                <div class="row">
-                    <div class="input-field col s12">
-                        <input class="validate" id="title" name="title" type="text" value="Bubble Nebula">
-                        <label for="title">Notification title</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <input class="validate" id="body" name="body" type="text" value="It's found today at 21:00">
-                        <label for="body">Notification message</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <input class="validate" id="icon" name="icon" type="text"
-                               value="https://peter-gribanov.github.io/serviceworker/Bubble-Nebula.jpg">
-                        <label for="icon">URL to notification icon</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <input class="validate" id="image" name="image" type="text"
-                               value="https://peter-gribanov.github.io/serviceworker/Bubble-Nebula_big.jpg">
-                        <label for="image">URL to notification image</label>
-                    </div>
-                    <div class="input-field col s12">
-                        <input class="validate" id="click_action" name="click_action" type="text"
-                               value="https://www.nasa.gov/feature/goddard/2016/hubble-sees-a-star-inflating-a-giant-bubble">
-                        <label for="click_action">Target URL for click action</label>
-                    </div>
-                    <div class="input-field col s12" id="massage_row">
-                        <p><strong>Massage id:</strong> <span id="massage_id" style="word-break: break-all;"></span></p>
-                    </div>
-                </div>
-                <button class="btn-large waves-effect waves-light orange" id="send" type="submit"><i
-                        class="material-icons left">email</i> Send
-                </button>
-            </form>
-        </div>
     </div>
 </main>
 </body>
 </html>
 <script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
 <script src="app-receiver.js"></script>
+<script src="messaging-client.js"></script>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Firebase Cloud Messaging</title>
+    <title>control center</title>
     <link rel="shortcut icon" href="favicon.png">
 
     <!-- Import Google Icon Font -->
@@ -17,12 +17,9 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
 
-    <script src="/messaging-settings.js"></script>
+    <script src="messaging-settings.js"></script>
     <style type="text/css">
         #alert,
-        #info,
-        #delete,
-        #notification,
         #massage_row {
             display: none;
         }
@@ -31,7 +28,7 @@
 <body>
 <nav class="light-blue lighten-1" role="navigation">
     <div class="nav-wrapper container">
-        <h3 class="brand-logo">Firebase Cloud Messaging</h3>
+        <h3 class="brand-logo" style="text-transform: capitalize;">Messaging control center</h3>
         <ul class="right hide-on-med-and-down desktop-header-links">
             <li><a href="https://github.com/peter-gribanov/serviceworker">GitHub</a></li>
         </ul>
@@ -41,24 +38,10 @@
 
 <main class="section no-pad-bot" id="index-banner">
     <div class="container">
-        <br>
-        <br>
         <div class="card-panel deep-orange darken-1 white-text z-depth-2" id="alert">
             <i class="material-icons left deep-orange-text text-darken-4">warning</i>
             <strong>Error</strong>
             <em id="alert-message"></em>
-        </div>
-        <div class="card-panel green darken-1 white-text z-depth-2" id="info">
-            <i class="material-icons left green-text text-darken-4">info</i>
-            <span id="info-message"></span>
-        </div>
-        <div class="row center">
-            <h4 class="header col s12 light">Instance ID Token</h4>
-            <p id="token" style="word-break: break-all;"></p>
-        </div>
-        <div class="row center">
-            <button type="button" class="btn-large waves-effect waves-light orange" id="register"><i class="material-icons left">vpn_key</i> Register</button>
-            <button type="button" class="btn-large waves-effect waves-light orange" id="delete"><i class="material-icons left">delete</i> Delete Token</button>
         </div>
         <div class="row">
             <form action="" method="post" class="col s12" id="notification">
