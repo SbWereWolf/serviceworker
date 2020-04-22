@@ -6,32 +6,15 @@ massage_row.hide();
 var alert = $('#alert');
 var alert_message = $('#alert-message');
 
-const isEnable = 'Notification' in window &&
-    'serviceWorker' in navigator &&
-    'localStorage' in window &&
-    'fetch' in window &&
-    'postMessage' in window;
+const isEnable = 'fetch' in window;
 
 if (!isEnable) {
-    if (!('Notification' in window)) {
-        showError('Notification not supported');
-    } else if (!('serviceWorker' in navigator)) {
-        showError('ServiceWorker not supported');
-    } else if (!('localStorage' in window)) {
-        showError('LocalStorage not supported');
-    } else if (!('fetch' in window)) {
+    if (!('fetch' in window)) {
         showError('fetch not supported');
-    } else if (!('postMessage' in window)) {
-        showError('postMessage not supported');
     }
 
-    console.warn('This browser does not support desktop notification.');
-    console.log('Is HTTPS', window.location.protocol === 'https:');
-    console.log('Support Notification', 'Notification' in window);
-    console.log('Support ServiceWorker', 'serviceWorker' in navigator);
-    console.log('Support LocalStorage', 'localStorage' in window);
+    console.warn('This browser does not support Fetch Web API.');
     console.log('Support fetch', 'fetch' in window);
-    console.log('Support postMessage', 'postMessage' in window);
 }
 
 if (isEnable) {
