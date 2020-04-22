@@ -41,12 +41,16 @@ if (!isEnable) {
 }
 
 if (isEnable) {
-    var messaging = firebase.messaging();
+    const messaging = firebase.messaging();
+    const client = new FirebaseMessagingClient(
+        messaging,
+        resetUI,
+        updateUIForPushEnabled,
+        updateUIForPushPermissionRequired);
 
     // already granted
     if (Notification.permission === 'granted') {
-        getToken(updateUIForPushEnabled,
-            updateUIForPushPermissionRequired)
+        client.getToken()
             .catch(function (e) {
                 showError(e.message);
             });
@@ -54,8 +58,7 @@ if (isEnable) {
 
     // get permission on subscribe only once
     bt_register.on('click', function () {
-        getToken(updateUIForPushEnabled,
-            updateUIForPushPermissionRequired)
+        client.getToken()
             .catch(function (e) {
                 showError(e.message);
             });
@@ -63,7 +66,7 @@ if (isEnable) {
 
     bt_delete.on('click', function () {
         // Delete Instance ID token.
-        dropToken(resetUI)
+        client.dropToken()
             .catch(function (e) {
                 showError(e.message);
             });
@@ -81,7 +84,7 @@ if (isEnable) {
 
         try {
             // register fake ServiceWorker for show notification on mobile devices
-            notifyWithMessage(payload);
+            client.notifyWithMessage(payload);
         } catch (e) {
             showError(e.message);
         }
@@ -90,7 +93,7 @@ if (isEnable) {
 
     // Callback fired if Instance ID token is updated.
     messaging.onTokenRefresh(function () {
-        refreshToken(updateUIForPushEnabled).catch(function (e) {
+        client.refreshToken().catch(function (e) {
             showError(e.message);
         });
     });
