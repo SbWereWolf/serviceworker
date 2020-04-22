@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+
+    <script src="/messaging-settings.js"></script>
     <style type="text/css">
         #alert,
         #info,
@@ -85,12 +87,14 @@
                         <p><strong>Massage id:</strong> <span id="massage_id" style="word-break: break-all;"></span></p>
                     </div>
                 </div>
-                <button type="submit" class="btn-large waves-effect waves-light orange" id="send"><i class="material-icons left">email</i> Send</button>
+                <button type="submit" class="btn-large waves-effect waves-light orange" id="send"><i
+                        class="material-icons left">email</i> Send
+                </button>
             </form>
         </div>
     </div>
 </main>
 </body>
 </html>
-<script src="firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.7.2/firebase.js"></script>
 <script src="app.js"></script>
