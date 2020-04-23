@@ -1,33 +1,90 @@
 function FirebaseMessagingClient(
-    messaging, handleReset, handleSuccess, handleFail) {
+    messaging, unsubscribed, subscribed, failure) {
 
     const messagingLib = messaging;
-    const callbackForReset = handleReset;
-    const callbackForSuccess = handleSuccess;
-    const callbackForFail = handleFail;
+    const whenUnsubscribed = unsubscribed;
+    const whenSubscribed = subscribed;
+    const whenFail = failure;
 
-    function sendTokenToServer(currentToken) {
-        const wasSent = isTokenSentToServer(currentToken);
-        if (!wasSent) {
-            console.log('Sending token to server...');
-            setTokenSentToServer(currentToken);
+    function composeRequest(details) {
+        const formParameters = [];
+        for (const property in details) {
+            if (details.hasOwnProperty(property)) {
+                const key = encodeURIComponent(property);
+                const value = encodeURIComponent(details[property]);
+                formParameters.push(key + "=" + value);
+            }
         }
-        if (wasSent) {
-            console.log('Token already sent to server so won\'t send it again unless it changes');
-        }
+        formBody = formParameters.join("&");
+
+        const headers = new Headers({
+            "Content-Type":
+                "application/x-www-form-urlencoded;charset=UTF-8",
+        });
+        // noinspection UnnecessaryLocalVariableJS
+        const request = new Request("/post-office.php", {
+            method: "POST",
+            headers: headers,
+            body: formBody,
+        });
+        return request;
     }
 
-    function isTokenSentToServer(currentToken) {
-        return window.localStorage.getItem('sentFirebaseMessagingToken') === currentToken;
+    async function subscribe(currentToken) {
+        const details = {
+            "addressee": currentToken,
+            "subscribe": true,
+        };
+        const request = composeRequest(details);
+
+        return fetch(request);
     }
 
-    function setTokenSentToServer(currentToken) {
-        if (currentToken) {
-            window.localStorage.setItem('sentFirebaseMessagingToken', currentToken);
-        }
-        if (!currentToken) {
-            window.localStorage.removeItem('sentFirebaseMessagingToken');
-        }
+    async function unsubscribe() {
+        const details = {
+            "unsubscribe": true,
+        };
+        const request = composeRequest(details);
+
+        return fetch(request);
+    }
+
+    function attach(currentToken) {
+        subscribe(currentToken)
+            .then((response) => {
+                return response.json();
+            })
+            .then((json) => {
+                const success = json === 1;
+                if (!success) {
+                    whenUnsubscribed();
+                }
+                if (success) {
+                    whenSubscribed(currentToken);
+                }
+            })
+            .catch(() => {
+                whenFail();
+            });
+    }
+
+    function detach() {
+        unsubscribe()
+            .then((response) => {
+                return response.json();
+            })
+            .then((json) => {
+                const success = json === 1;
+                if (!success) {
+                    whenSubscribed(currentToken);
+                }
+                if (success) {
+                    whenUnsubscribed();
+                }
+            })
+            .catch(() => {
+                whenFail();
+            });
     }
 
     class FirebaseMessagingClient {
@@ -52,23 +109,17 @@ function FirebaseMessagingClient(
         async getToken() {
             messagingLib.requestPermission()
                 .then(function () {
-                    // Get Instance ID token. Initially this makes a network call, once retrieved
-                    // subsequent calls to getToken will return from cache.
                     messagingLib.getToken()
                         .then(function (currentToken) {
-
-                            if (currentToken) {
-                                sendTokenToServer(currentToken);
-                                callbackForSuccess(currentToken);
-                            } else {
-                                setTokenSentToServer(false);
-                                callbackForFail();
+                            if (!currentToken) {
                                 throw new Error('No Instance ID token available. Request permission to generate one');
+                            }
+                            if (currentToken) {
+                                attach(currentToken);
                             }
                         })
                         .catch(function () {
-                            setTokenSentToServer(false);
-                            callbackForFail();
+                            whenFail();
                             throw new Error('An error occurred while retrieving token');
                         });
                 })
@@ -82,8 +133,7 @@ function FirebaseMessagingClient(
                 .then(function (currentToken) {
                     messagingLib.deleteToken(currentToken)
                         .then(function () {
-                            setTokenSentToServer(false);
-                            callbackForReset();
+                            detach();
                         })
                         .catch(function () {
                             throw new Error('Unable to delete token');
@@ -98,8 +148,7 @@ function FirebaseMessagingClient(
             messagingLib.getToken()
                 .then(function (refreshedToken) {
                     // Send Instance ID token to app server.
-                    sendTokenToServer(refreshedToken);
-                    callbackForSuccess(refreshedToken);
+                    attach(refreshedToken);
                 })
                 .catch(function () {
                     throw new Error('Unable to retrieve refreshed token');

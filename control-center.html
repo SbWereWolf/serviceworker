@@ -10,17 +10,18 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js">
+    </script>
 
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js">
+    </script>
 
     <script src="messaging-settings.js"></script>
     <style type="text/css">
-        #alert,
-        #massage_row {
+        #alert {
             display: none;
         }
     </style>
@@ -28,50 +29,68 @@
 <body>
 <nav class="light-blue lighten-1" role="navigation">
     <div class="nav-wrapper container">
-        <h3 class="brand-logo" style="text-transform: capitalize;">Messaging control center</h3>
+        <h3 class="brand-logo" style="text-transform: capitalize;">
+            Messaging control center</h3>
         <ul class="right hide-on-med-and-down desktop-header-links">
-            <li><a href="https://github.com/peter-gribanov/serviceworker">GitHub</a></li>
+            <li>
+                <a href="https://github.com/peter-gribanov/serviceworker">
+                    GitHub</a></li>
         </ul>
     </div>
 </nav>
 
-
 <main class="section no-pad-bot" id="index-banner">
     <div class="container">
-        <div class="card-panel deep-orange darken-1 white-text z-depth-2" id="alert">
-            <i class="material-icons left deep-orange-text text-darken-4">warning</i>
+        <div class="card-panel deep-orange darken-1 white-text z-depth-2"
+             id="alert">
+            <i class="material-icons left deep-orange-text text-darken-4">
+                warning</i>
             <strong>Error</strong>
             <em id="alert-message"></em>
         </div>
         <div class="row">
-            <form action="" method="post" class="col s12" id="notification">
+            <form action="/post-office.php" class="col s12"
+                  id="notification" method="post">
                 <div class="row">
                     <div class="input-field col s12">
-                        <input type="text" name="title" id="title" value="Bubble Nebula" class="validate">
+                        <input class="validate" id="title" name="title"
+                               type="text" value="Bubble Nebula">
                         <label for="title">Notification title</label>
                     </div>
                     <div class="input-field col s12">
-                        <input type="text" name="body" id="body" value="It's found today at 21:00" class="validate">
+                        <input class="validate" id="body" name="body"
+                               type="text"
+                               value="It's found today at 21:00">
                         <label for="body">Notification message</label>
                     </div>
                     <div class="input-field col s12">
-                        <input type="text" name="icon" id="icon" value="https://peter-gribanov.github.io/serviceworker/Bubble-Nebula.jpg" class="validate">
-                        <label for="icon">URL to notification icon</label>
+                        <input class="validate" id="icon" name="icon"
+                               type="text" value="https://peter-gribanov.github.io/serviceworker/Bubble-Nebula.jpg">
+                        <label for="icon">
+                            URL to notification icon</label>
                     </div>
                     <div class="input-field col s12">
-                        <input type="text" name="image" id="image" value="https://peter-gribanov.github.io/serviceworker/Bubble-Nebula_big.jpg" class="validate">
-                        <label for="image">URL to notification image</label>
+                        <input class="validate" id="image" name="image"
+                               type="text" value="https://peter-gribanov.github.io/serviceworker/Bubble-Nebula_big.jpg">
+                        <label for="image">
+                            URL to notification image</label>
                     </div>
                     <div class="input-field col s12">
-                        <input type="text" name="click_action" id="click_action" value="https://www.nasa.gov/feature/goddard/2016/hubble-sees-a-star-inflating-a-giant-bubble" class="validate">
-                        <label for="click_action">Target URL for click action</label>
+                        <input class="validate" id="click_action"
+                               name="click_action"
+                               type="text"
+                               value="https://www.nasa.gov/feature/goddard/2016/hubble-sees-a-star-inflating-a-giant-bubble">
+                        <label for="click_action">
+                            Target URL for click action</label>
                     </div>
-                    <div class="input-field col s12" id="massage_row">
-                        <p><strong>Massage id:</strong> <span id="massage_id" style="word-break: break-all;"></span></p>
-                    </div>
+
+                    <input id="send"
+                           name="send" type="hidden" value="1">
                 </div>
-                <button type="submit" class="btn-large waves-effect waves-light orange" id="send"><i
-                        class="material-icons left">email</i> Send
+                <button class="btn-large waves-effect waves-light
+                         orange" id="submit"
+                        type="submit">
+                    <i class="material-icons left">email</i> Send
                 </button>
             </form>
         </div>
